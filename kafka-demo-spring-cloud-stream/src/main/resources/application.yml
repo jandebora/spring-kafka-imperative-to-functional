@@ -1,0 +1,32 @@
+server:
+  port: 8092
+  servlet:
+    context-path: /kafkaDemo
+
+spring:
+  application:
+    name: kafka-demo
+  cloud:
+    stream:
+      bindings:
+        message:
+          destination: demo_events
+          group: demoGroups
+          binder: local_kafka
+      binders:
+        local_kafka:
+          type: kafka
+      kafka:
+        binder:
+          brokers:
+            - localhost:19092
+
+logging:
+  file:
+    path: ./target/ 
+    name: ${spring.application.name}
+  level:
+    com.fasterxml.jackson: DEBUG
+    com.ccagigao.kafkademo: DEBUG
+    org.springframework.boot: INFO
+    org.springframework.web: INFO

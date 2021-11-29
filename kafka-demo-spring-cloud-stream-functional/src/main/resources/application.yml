@@ -1,0 +1,34 @@
+server:
+  port: 8092
+  servlet:
+    context-path: /kafkaDemo
+
+spring:
+  application:
+    name: kafka-demo
+  cloud:
+    function:
+      definition: proccessMessage;messageDataPublisher
+    stream:
+      bindings:
+        messageDataPublisher-out-0:
+          destination: demo_events
+        proccessMessage-in-0:
+          destination: demo_events
+      binders:
+        local_kafka:
+          type: kafka
+      kafka:
+        binder:
+          brokers:
+            - localhost:19092
+
+logging:
+  file:
+    path: ./target/ 
+    name: ${spring.application.name}
+  level:
+    com.fasterxml.jackson: DEBUG
+    com.ccagigao.kafkademo: DEBUG
+    org.springframework.boot: INFO
+    org.springframework.web: INFO
